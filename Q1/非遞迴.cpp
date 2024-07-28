@@ -1,46 +1,38 @@
 #include <iostream>
 #include <stack>
-
+#include <utility> 
 
 using namespace std;
 
-// 非遞迴實現的阿克曼函數
 int ackermann_non_recursive(int m, int n) {
-    // 使用堆疊模擬遞迴
-    stack<pair<int, int>> s;//創建了一個名為S的堆疊
-  
-    s.push({m, n}); // 初始情況下將 (m, n) 入堆疊
+    stack<pair<int, int> > s; //創建了一個名為s的堆疊
     
-    while (!s.empty())//確保在訪問 top 或調用 pop 之前，堆疊中有元素存在=進入遞迴。
-      {
-        
-        auto [m, n] = s.top(); // 自動類型推導取得堆疊頂部的 m 和 n
-        s.pop(); // 移除頂部元素
-        
-        if (m == 0)
+    s.push(make_pair(m, n)); 
+    
+    while (!s.empty())
         {
-            // 如果 m 為 0，更新 n 值
+        pair<int, int> top = s.top();
+        s.pop();//移除頂部的元素
+        m = top.first;//first 和 second 分別代表這個 pair 中的第一個和第二個元素，top.first 的值賦給變量 m。
+        n = top.second;//top.second 的值賦給變量 n。
+        
+        if (m == 0) //如果m=0，則回傳n+1
+        {
             n = n + 1;
             if (!s.empty())
             {
-                s.top().second = n; // 更新堆疊中上層元素的 n 值
+                s.top().second = n;//將top.second 的值替換成新的n。
             }
         } 
-          
-        else if (n == 0) 
+        else if (n == 0)//如果n=0，則回傳A(m - 1, 1)的結果
         {
-            // 如果 n 為 0，將 (m-1, 1) 推入堆疊
-            s.push({m - 1, 1});
-        } 
-
-          
-        else 
-        {
-            // 推入 (m-1, 0) 和 (m, n-1) 進行進一步計算
-            s.push({m - 1, 0});
-            s.push({m, n - 1});
+            s.push(make_pair(m - 1, 1));
         }
-        
+        else //當n不為0且m也不為0時，需要計算 A(m - 1, A(m, n - 1))。
+        {
+            s.push(make_pair(m - 1, 0));
+            s.push(make_pair(m, n - 1));
+        }
     }
 
     return n;
