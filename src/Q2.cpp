@@ -3,7 +3,8 @@
 using namespace std;
 
 // 遞迴函數用來生成集合 S 的冪集
-void generatePowerSet(int S[], int n, int index, int current[], int currentSize) //n 集合大小、index 是當前處理的元素索引、current[] 是暫時儲存當前子集的陣列、currentSize 是當前子集的大小。
+void generatePowerSet(int S[], int n, int index, int current[], int currentSize) 
+//n 集合大小、index 是當前處理的元素索引、current[] 是暫時儲存當前子集的陣列、currentSize 是當前子集的大小。
 {
   
     // 當前子集完成，輸出結果
